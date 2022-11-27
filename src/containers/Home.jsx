@@ -12,6 +12,10 @@ import {
   Sidebar,
   Visibility
 } from "semantic-ui-react";
+import QuoteBuilder from "./QuoteBuilder";
+import { useEffect, useState } from "react";
+// import { default as Logo } from "/logo.svg";
+// import { default as RoomRender } from "/RoomRender.png";
 
 const getWidth = () => {
   const isSSR = typeof window === "undefined";
@@ -177,6 +181,61 @@ const HomepageLayout = () => (
         </Button>
       </Container>
     </Segment>
+
+    <Segment>
+      <WalkthroughStepper />
+    </Segment>
+    <Segment>
+      <QuoteBuilder />
+    </Segment>
   </ResponsiveContainer>
 );
+
+
+function WalkthroughStepper() {
+  const [currStep, setCurrStep] = useState(1);
+  const nextStepperStep = () => {
+    document.querySelector(`#step${currStep}`).classList.remove("current");
+    document.querySelector(`#step${currStep}-icon`).classList.remove("current");
+
+    if (currStep == 3) {
+      setCurrStep(1);
+    }
+    else {
+      setCurrStep(currStep + 1);
+    }
+  }
+  useEffect(
+    () => {
+      setTimeout(nextStepperStep, 5000);
+      document.querySelector(`#step${currStep}-icon`).classList.add("current");
+      document.querySelector(`#step${currStep}`).classList.add("current");
+    }, [currStep]
+  )
+  return (
+    <div className="banner-stepthrough">
+
+      <p className="subtitle font-white">3 easy steps</p>
+      <div className="steppers">
+        <div className="icon current" id="step1-icon"><h3>1</h3></div>
+        <div className="icon" id="step2-icon"><h3>2</h3></div>
+        <div className="icon" id="step3-icon"><h3>3</h3></div>
+        <hr className="progress-line" />
+      </div>
+      <div className="content current" id="step1">
+        <h2 className="font-white">Upload a screenshot or pick a quote.</h2>
+        <p className="font-white">Pick one from our list, or upload a screenshot with a quote you like. It can be anything.</p>
+      </div>
+      <div className="content" id="step2">
+        <h2 className="font-white">Choose a Template</h2>
+        <p className="font-white">Pick a template that calls out to you the most. Or if you want something more unique, pick a random one</p>
+      </div>
+      <div className="content" id="step3">
+        <h2 className="font-white">Order to Your Door</h2>
+        <p className="font-white">Get your quote poster shipped to your door along with free accessories to put it up where you want with ease,  and no fear of residue getting stuck on the wall.</p>
+      </div>
+    </div>
+  )
+}
+
 export default HomepageLayout;

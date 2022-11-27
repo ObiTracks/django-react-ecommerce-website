@@ -43,6 +43,7 @@ class Item(models.Model):
     slug = models.SlugField()
     description = models.TextField()
     image = models.ImageField()
+    render = models.ImageField(5)
 
     def __str__(self):
         return self.title
